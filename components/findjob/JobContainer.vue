@@ -85,7 +85,8 @@ export default {
       window.location.href=link
     },
     search(){
-        this.jobs_list=[]
+       try {
+           this.jobs_list=[]
         this.isLoading=true
         this.$axios.get(`/search/${this.searchValue=='' ? 'all' : this.searchValue}/${this.searchTitle=='' ? 'all' : this.searchTitle}`,
         {headers:{
@@ -96,6 +97,9 @@ export default {
               // alert()
               this.job_list = res.data
         })
+       } catch (error) {
+          this.isLoading=false
+       }
     },
     loadData() {
       navigator.geolocation.getCurrentPosition(
