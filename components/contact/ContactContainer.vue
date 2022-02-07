@@ -85,7 +85,7 @@
                            <div align="start">
                                Message
                            </div>
-                           <v-textarea outlined v-model="contacts.email" ></v-textarea>
+                           <v-textarea outlined v-model="contacts.message" ></v-textarea>
                        </v-col>
                    </v-row>
                    <v-col cols="auto" @click="sendEmail">
@@ -101,7 +101,7 @@
 export default {
     methods:{
         sendEmail(){
-            this.$axios.post('/inquire',{email:this.contacts.email,name:this.contacts.name,subject:this.contacts.subject},
+            this.$axios.post('/inquire',{email:this.contacts.email,name:this.contacts.name,message:this.contacts.message},
             {
                 headers:{
 
