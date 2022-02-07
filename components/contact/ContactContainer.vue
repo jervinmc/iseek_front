@@ -88,7 +88,7 @@
                            <v-textarea outlined v-model="contacts.email" ></v-textarea>
                        </v-col>
                    </v-row>
-                   <v-col cols="auto" @click="route('jobs')">
+                   <v-col cols="auto" @click="sendEmail">
                         <v-btn outlined depressed color="#6609af" dark> Send Email </v-btn>
                     </v-col>
               </v-card>
@@ -99,6 +99,19 @@
 
 <script>
 export default {
+    methods:{
+        sendEmail(){
+            this.$axios.post('/inquire',{email:this.contacts.email,name:this.contacts.name,subject:this.contacts.subject},
+            {
+                headers:{
+
+                }
+            })
+            .then(()=>{
+                alert('sent!')
+            })
+        }
+    },
     data(){
         return{
             contacts:[]

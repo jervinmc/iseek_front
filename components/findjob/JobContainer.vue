@@ -34,7 +34,7 @@
         type="card"
       ></v-skeleton-loader>
       <div v-for="item in job_list" :key="item" class="pb-5">
-          <v-card class="pa-10" rounded="lg" width="1000" align="start" @click="routeLink(sub_item.jobId)">
+          <v-card class="pa-10" rounded="lg" width="1000" align="start" @click="routeLink(item.link)">
             <div>
               <v-row>
                 <v-col>
@@ -82,12 +82,12 @@ export default {
   },
   methods: {
     routeLink(link){
-      window.location.href="https://www.trabahanap.com/search/jobs/details/"+link
+      window.location.href=link
     },
     search(){
         this.jobs_list=[]
         this.isLoading=true
-        this.$axios.get(`/search/${this.searchValue}`,
+        this.$axios.get(`/search/${this.searchValue=='' ? 'all' : this.searchValue}/${this.searchTitle=='' ? 'all' : this.searchTitle}`,
         {headers:{
             
         }})
