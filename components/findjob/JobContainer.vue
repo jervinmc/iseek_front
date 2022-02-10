@@ -50,6 +50,22 @@
                 >
               </v-row>
             </v-col>
+             <v-col
+            cols="3"
+              :class="active_page == 3 ? 'tab active pa-5' : 'tab pa-5'"
+              align="center"
+              @click="active_page = 3"
+            > 
+              <v-row class="tab-contents justify-start ml-6">
+                <v-icon class="mr-2 action-icons"
+                  >mdi-sine-wave</v-icon
+                ><b
+                  v-if="$vuetify.breakpoint.lg || $vuetify.breakpoint.xl"
+                  class="tab-name"
+                  >Highest Paying Jobs</b
+                >
+              </v-row>
+            </v-col>
 
           </v-row>
         </v-container>
@@ -197,6 +213,89 @@
         </div>
       </div>
     </v-card>
+     <v-card elevation="5" v-if="active_page==2">
+      
+    <div class="pt-10">
+         <v-skeleton-loader
+        v-if="isLoading"
+        class="mx-auto"
+        width="1200"
+        type="card"
+      ></v-skeleton-loader>
+      <div v-for="item in rated_list" :key="item" class="pb-5">
+          <v-card class="pa-10" rounded="lg" width="1000" align="start" @click="routeLink(item.link,item.category)">
+            <div>
+              <v-row>
+                <v-col>
+                  <v-img
+                    contain
+                    :src="item.image"
+                    height="100"
+                    width="100"
+                  ></v-img>
+                </v-col>
+                <v-col cols="10">
+                  <div class="text-h6"><b>{{ item.jobTitle }}</b></div>
+                  <!-- <div class="text-trunctate">
+                    {{ sub_item.companyDescription }}
+                  </div> -->
+                  <div>
+                    <v-icon>mdi-map-marker-outline</v-icon>
+                    {{ item.location }}
+                  </div>
+                </v-col>
+              </v-row>
+              <div class="pt-10 text-truncate">
+                {{ item.jobDescription }}<br />
+              </div>
+            </div>
+          </v-card>
+        </div>
+      </div>
+    </v-card>
+      <v-card elevation="5" v-if="active_page==3">
+      
+    <div class="pt-10">
+         <v-skeleton-loader
+        v-if="isLoading"
+        class="mx-auto"
+        width="1200"
+        type="card"
+      ></v-skeleton-loader>
+      <div v-for="item in rated_list" :key="item" class="pb-5">
+          <v-card class="pa-10" rounded="lg" width="1000" align="start" @click="routeLink(item.link,item.category)">
+            <div>
+              <v-row>
+                <v-col>
+                  <v-img
+                    contain
+                    :src="item.image"
+                    height="100"
+                    width="100"
+                  ></v-img>
+                </v-col>
+                <v-col cols="10">
+                  <div class="text-h6"><b>{{ item.jobTitle }}</b></div>
+                  <!-- <div class="text-trunctate">
+                    {{ sub_item.companyDescription }}
+                  </div> -->
+                  <div>
+                    <v-icon>mdi-map-marker-outline</v-icon>
+                    {{ item.location }}
+                  </div>
+                </v-col>
+              </v-row>
+              <div class="pt-10 text-truncate">
+                {{ item.jobDescription }}<br />
+              </div>
+                   <div>
+                SALARY : {{item.salary}}
+              </div>
+            </div>
+          </v-card>
+        </div>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -212,12 +311,14 @@ export default {
       title:'',
       mostdemand_list:[],
       mostsearch_list:[],
+      rated_list:[]
     };
   },
   created() {
     this.loadData();
     this.mostsearch()
     this.mostsearch1()
+    this.mostsearch2()
   },
   methods: {
     mostsearch(){
@@ -248,6 +349,21 @@ export default {
               // alert()
               console.log(res.data)
               this.mostsearch_list = res.data;
+            });
+    },
+     mostsearch2(){
+      this.$axios
+            .get(
+              `/highestpaidjob/`,
+              {
+                headers: {},
+              }
+            )
+            .then((res) => {
+                this.isLoading=false
+              // alert()
+              console.log(res.data)
+              this.rated_list = res.data;
             });
     },
     routeLink(link,category){
