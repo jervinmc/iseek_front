@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-app-bar :clipped-left="clipped" fixed app elevation="0">
+    <v-app-bar :clipped-left="clipped" fixed app elevation="0" v-if="$route.name=='jobs' || $route.name=='index'">
       <v-icon> mdi-mail </v-icon>
       <v-col cols="auto"> iseekwebapp@gmail.com</v-col>
       <v-icon>
@@ -17,6 +17,21 @@
           mdi-facebook
         </v-icon>
     </v-app-bar>
+     <v-app-bar v-else :clipped-left="clipped" fixed app elevation="0" >
+       <div align="start">
+         <v-img src="/logo.png" height="50" width="100" contain></v-img>
+       </div>
+      <v-spacer />
+      <v-icon class="mr-5" @click="routeAdmin('admin/logs')">
+         mdi-magnify
+      </v-icon>
+      <v-icon class="mr-5" @click="routeAdmin('admin/demand')">
+         mdi-poll
+      </v-icon>
+        <v-icon class="mr-5" @click="routeAdmin('admin/usermanagement')">
+          mdi-account-multiple
+        </v-icon>
+    </v-app-bar>
     <v-main>
       <v-container fluid class="pa-0">
         <Nuxt  />
@@ -31,6 +46,9 @@
 <script>
 export default {
   name: "DefaultLayout",
+  created(){
+
+  },
   methods:{
     route(link){
       if(link == 'facebook') {
@@ -39,8 +57,10 @@ export default {
       else{
          window.location.href="https://twitter.com/iseekwebapp"
       }
+    },
+    routeAdmin(link){
+      window.location.href="/"+link
     }
-    ,
   },
   data() {
     return {
