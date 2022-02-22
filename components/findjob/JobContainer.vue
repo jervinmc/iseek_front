@@ -71,8 +71,14 @@
         </v-container>
     <v-card elevation="5" v-if="active_page==0">
       <div align="center">
-        <v-row>
-            <v-spacer />
+        <v-row class="px-5">
+  
+            <v-col>
+              <v-text-field outlined v-model="salary_from" placeholder="Salary From"></v-text-field>
+            </v-col>
+           <v-col>
+              <v-text-field outlined v-model="salary_to" placeholder="Salary To"></v-text-field>
+           </v-col>
       <v-col cols="4">
         <v-text-field
           outlined
@@ -91,8 +97,8 @@
           placeholder="Job Title"
         ></v-text-field>
       </v-col>
-      <v-col cols="auto" @click="route('jobs')" align-self="center">
-        <v-btn outlined depressed color="#6609af" dark> Search </v-btn>
+      <v-col cols="auto" align-self="start" class="pt-5">
+        <v-btn outlined depressed color="#6609af" @click="search" dark> Search </v-btn>
       </v-col>
     </v-row>
     </div>
@@ -303,6 +309,8 @@
 export default {
   data() {
     return {
+      salary_to:'',
+      salary_from:'',
       active_page:0,
       searchTitle:'',
         isLoading:true,
@@ -372,9 +380,9 @@ export default {
     },
     search(){
        try {
-           this.jobs_list=[]
+        this.jobs_list=[]
         this.isLoading=true
-        this.$axios.get(`/search/${this.searchValue=='' ? 'all' : this.searchValue}/${this.searchTitle=='' ? 'all' : this.searchTitle}`,
+        this.$axios.get(`/search/${this.searchValue=='' ? 'all' : this.searchValue}/${this.searchTitle=='' ? 'all' : this.searchTitle}/${this.salary_from=='' ? 'all' : this.salary_from}/${this.salary_to=='' ? 'all' : this.salary_to}/`,
         {headers:{
             
         }})

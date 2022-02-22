@@ -4,6 +4,12 @@
       <v-col align="start" class="pa-10 text-h5" cols="auto">
         <b>Logs Details</b>
       </v-col>
+      <v-col align-self="center" align="end" class="mr-5">
+        <JsonCSV
+          :data="gallery">
+          <v-btn>Download CSV</v-btn>
+      </JsonCSV>
+      </v-col>
     </v-row>
     <v-data-table
       class="pa-5"
@@ -46,12 +52,11 @@
 </template>
 
 <script>
-
-
-
+import JsonCSV from 'vue-json-csv'
 export default {
-
-
+  components:{
+    JsonCSV
+  },
   created() {
     this.loadData();
   },

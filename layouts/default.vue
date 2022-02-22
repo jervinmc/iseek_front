@@ -22,6 +22,9 @@
          <v-img src="/logo.png" height="50" width="100" contain></v-img>
        </div>
       <v-spacer />
+      <v-icon class="mr-5" @click="routeAdmin('admin/dashboard')">
+         mdi-home-analytics
+      </v-icon>
       <v-icon class="mr-5" @click="routeAdmin('admin/logs')">
          mdi-magnify
       </v-icon>
