@@ -38,6 +38,20 @@
             </v-card>
          </v-col>
      </v-row>
+     <div class="pt-10">
+         <v-card  elevation="5">
+             <div>
+                  <v-sparkline
+                  height="50"
+                    :labels="labels"
+                    :value="value"
+                    color="green"
+                    line-width="1"
+                    padding="16"
+                    ></v-sparkline>
+             </div>
+         </v-card>
+     </div>
        <div class="py-10">
             <v-card elevation="5"  width="100vw"> 
                 <v-row class="pa-5">
@@ -94,6 +108,26 @@ export default {
     },
     data(){
         return{
+            labels: [
+      '12am',
+      '3am',
+      '6am',
+      '9am',
+      '12pm',
+      '3pm',
+      '6pm',
+      '9pm',
+    ],
+    value: [
+      200,
+      675,
+      410,
+      390,
+      310,
+      460,
+      250,
+      240,
+    ],
             users:[],
             search_list:[],
             demand_list:[]

@@ -397,7 +397,7 @@ export default {
        }
     },
   async  addToSearch(){
-    this.$axios.post('/mostsearch/',{search_job:this.searchTitle,search_location:this.searchValue},{headers:{
+    this.$axios.post('/mostsearch/',{search_job:this.searchTitle.toLowerCase(),search_location:this.searchValue.toLowerCase()},{headers:{
       
     }})
     },

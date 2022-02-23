@@ -113,7 +113,7 @@ export default {
           console.log(res.data)
 
           this.buttonLoad=false
-          window.location.href="/admin/usermanagement"
+          window.location.href="/admin/dashboard"
         })
       } catch (error) {
           this.buttonLoad=false
