@@ -38,9 +38,31 @@
             </v-card>
          </v-col>
      </v-row>
-     <div class="pt-10">
+     <div class="py-10" align="center">
+    <v-card class="pa-10" elevation="5">
+        <v-row>
+            <v-col>
+                <div class="text-h5" align="start">
+                    <b>Top 3 Most Search:</b>
+                </div>
+                <div class="pie_chart"  style="height:280px" align="center" v-if="this.chartData1.datasets[0].data.length!=0">
+                    <pie-chart :data="chartData1" :options="chartOptions"></pie-chart>
+                </div>
+            </v-col>
+            <v-col>
+                <div class="text-h5" align="start">
+                    <b>Top 3 Most Viewed:</b>
+                </div>
+                <div class="pie_chart"  style="height:280px" align="center" v-if="this.chartData.datasets[0].data.length!=0">
+                    <pie-chart :data="chartData" :options="chartOptions"></pie-chart>
+                </div>
+            </v-col>
+        </v-row>
+     </v-card>
+     </div>
+     <!-- <div class="pt-10">
          <v-card  elevation="5">
-             <div>
+             <div style="">
                   <v-sparkline
                   height="50"
                     :labels="labels"
@@ -51,7 +73,7 @@
                     ></v-sparkline>
              </div>
          </v-card>
-     </div>
+     </div> -->
        <div class="py-10">
             <v-card elevation="5"  width="100vw"> 
                 <v-row class="pa-5">
@@ -77,7 +99,7 @@
                     </v-col>
                      <v-col>
                         <div class="text-h5">
-                            <b>Top Search List:</b>
+                            <b>Top Viewed:</b>
                         </div>
                         <div class="text-h6 pa-5" v-if="demand_list.length>0">
                            <b>  1. {{demand_list[0].category}}</b>
@@ -102,32 +124,48 @@
 </template>
 
 <script>
+import PieChart from "./PieChart.js";
 export default {
+    components:{
+        PieChart,
+    },
     created(){
         this.loadData()
     },
     data(){
         return{
-            labels: [
-      '12am',
-      '3am',
-      '6am',
-      '9am',
-      '12pm',
-      '3pm',
-      '6pm',
-      '9pm',
-    ],
-    value: [
-      200,
-      675,
-      410,
-      390,
-      310,
-      460,
-      250,
-      240,
-    ],
+        chartData1: {
+        responsive:false,
+        hoverBackgroundColor: "red",
+        hoverBorderWidth: 10,
+        labels: [],
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: ['#E3C790', '#344557'],
+            data: []
+          }
+        ]
+      },
+      chartData: {
+        responsive:false,
+        hoverBackgroundColor: "red",
+        hoverBorderWidth: 10,
+        labels: [],
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: ['#E3C790', '#344557'],
+            data: []
+          }
+        ]
+      },
+      chartOptions: {
+        chart: {
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        },
+      },
             users:[],
             search_list:[],
             demand_list:[]
@@ -166,6 +204,14 @@ export default {
                 })
                 .then((res) => {
                 this.demand_list = res.data;
+                this.demand_list.map(item=>{
+              if(this.chartData.datasets[0].data.length>=3){
+              }
+              else {
+                  this.chartData.labels.push(item.category)
+                  this.chartData.datasets[0].data[this.chartData.datasets[0].data.length]=item.quantity
+              }   
+          })
         });
       },
       async searchGetall(){
@@ -178,6 +224,14 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.search_list = res.data;
+          this.search_list.map(item=>{
+              if(this.chartData1.datasets[0].data.length>=3){
+              }
+              else {
+                  this.chartData1.labels.push(item.search_location + '-' + item.search_job)
+                  this.chartData1.datasets[0].data[this.chartData1.datasets[0].data.length]=item.quantity
+              }   
+          })
         });
       }
     }
@@ -186,5 +240,9 @@ export default {
 </script>
 
 <style>
+.pie_chart {
+   margin: 0px 0px 30px 20px;
+    max-width: 250px;
+  }
 
 </style>
